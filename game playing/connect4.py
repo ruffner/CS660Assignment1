@@ -34,10 +34,12 @@ class connect4:
     def move(self, col):
         m2 = 1 << self.heights[col] # position entry on bitboard
         self.heights[col] += 1 # update top empty row for column
-        self.player ^= 1
         self.bitboard[self.player] ^= m2 # XOR operation to insert stone in player's bitboard
         self.board[self.lowest_row[col]][col] = self.player + 1 # update entry in matrix (only for printing)
         self.lowest_row[col] += 1 # update number of stones in column
+        
+        if not self.complete():
+            self.player ^= 1
     
     def result(self, player):
         if self.winner(player): return 0 # player wins
