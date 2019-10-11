@@ -51,7 +51,7 @@ class connect4:
         longestValue = 0
         symbol = ""
         value = self.player+1
-        print(value)
+        #print(value)
         currentLongest = 0
 
         #Search Right

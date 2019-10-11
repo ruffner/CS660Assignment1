@@ -51,9 +51,12 @@ class controller:
             
                 self.currentGame.print_board()
             
-        if not self.currentGame.draw(): print('%s won' % currentPlayers[self.currentGame.player].name+" "+str(self.currentGame.player))
-        else: print('Draw') 
-
+        if not self.currentGame.draw():
+            print('%s won' % currentPlayers[self.currentGame.player].name+" "+str(self.currentGame.player))
+            return self.currentGame.player+1
+        else:
+            print('Draw') 
+            return 0
  
 
 #Set of command line arguments that can be used to customize your tests. Can define the type of agent (random, minMax, alphaBeta, or MCTS), the game (connect4 or breakthrough), whether you want additional information printed (verbose mode) and how many games you want the agents to play. 
@@ -64,7 +67,16 @@ parser.add_argument('--game', choices=GAME_MAP.keys(), default='connect4', help=
 parser.add_argument('--verbose', help='Print more information.', action='store_true')
 parser.add_argument('--num_plays', type=int, default = 1, help='Number of games you want the agents to play.')
 args = parser.parse_args()
+agentScores = [0,0]
 #Runs a game the specified number of times. 
 for numRuns in range(args.num_plays):
     gameControl = controller(args.agent1, args.agent2, args.game)
-    gameControl.play_game()
+    res = gameControl.play_game()
+    if res > 0 and res < 3:
+        agentScores[res-1] += 1
+
+p1 = agentScores[0] / (agentScores[0] + agentScores[1]);
+p2 = agentScores[1] / (agentScores[0] + agentScores[1]);
+
+print('Agent ',0, ' won ',p1*100,' % of the time')
+print('Agent ',1, ' won ',p2*100,' % of the time')

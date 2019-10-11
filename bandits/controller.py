@@ -48,11 +48,15 @@ testBandit = bandit(args.input)
 agent = AGENTS_MAP[args.agent]()
 history = []
 cumulative_reward = 0
+total_regret = 0
 for numRuns in range(args.num_plays):
     testArm = agent.recommendArm(testBandit, history)
     reward = testBandit.pull_arm(testArm)
     cumulative_reward += reward
+    total_regret += (max(testBandit.arms) - testBandit.arms[testArm])
     history.append((testArm, reward))
 
-print(cumulative_reward)
-    
+    print("{},\t{},\t{}".format(numRuns, cumulative_reward, total_regret))
+
+#print(cumulative_reward)
+#print(total_regret)

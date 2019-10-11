@@ -451,3 +451,11 @@ class breakthrough():
     def __ne__(self, other):
         """Override the default Unequal behavior"""
         return self.playerO != other.playerO or self.playerX != other.playerX or self.cursor_at != other.cursor_at or self.player != other.player or self.game_over != other.game_over or self.board != other.board
+
+    def __hash__(self):
+        board = ""
+        for row in self.board:
+            for letter in row:
+                board += (letter)
+        
+        return hash(tuple(board))
